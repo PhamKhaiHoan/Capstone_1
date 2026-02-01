@@ -1,4 +1,3 @@
-// Kết nối MySQL bằng Sequelize
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 

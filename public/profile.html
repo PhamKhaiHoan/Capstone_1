@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang cá nhân - Pinterest Clone</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <a href="index.html" class="logo">
+          <i class="fab fa-pinterest"></i>
+          <span>Pinterest</span>
+        </a>
+        <a href="index.html" class="nav-btn">Trang chủ</a>
+      </div>
+
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          placeholder="Tìm kiếm ảnh..."
+          onkeypress="
+            if (event.key === 'Enter')
+              window.location.href = 'index.html?search=' + this.value;
+          "
+        />
+      </div>
+
+      <div class="header-right">
+        <div id="userMenu" class="user-menu">
+          <a href="upload.html" class="nav-icon" title="Thêm ảnh">
+            <i class="fas fa-plus"></i>
+          </a>
+          <a href="profile.html" class="nav-icon" title="Trang cá nhân">
+            <i class="fas fa-user"></i>
+          </a>
+          <button class="nav-icon" onclick="logout()" title="Đăng xuất">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div id="profileAvatar" class="profile-avatar">
+          <!-- Avatar will be loaded here -->
+        </div>
+        <h1 id="profileName" class="profile-name">Đang tải...</h1>
+        <p id="profileEmail" class="profile-email"></p>
+        <div class="profile-actions">
+          <button class="btn btn-secondary" onclick="showModal('editModal')">
+            <i class="fas fa-edit"></i> Chỉnh sửa
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Tabs -->
+      <div class="profile-tabs">
+        <button
+          class="profile-tab active"
+          onclick="switchTab('created')"
+          id="tabCreated"
+        >
+          Đã tạo
+        </button>
+        <button class="profile-tab" onclick="switchTab('saved')" id="tabSaved">
+          Đã lưu
+        </button>
+      </div>
+
+      <!-- Image Grid -->
+      <div id="imageGrid" class="image-grid">
+        <!-- Images will be loaded here -->
+      </div>
+
+      <div id="loading" class="loading" style="display: none">
+        <i class="fas fa-spinner fa-spin"></i> Đang tải...
+      </div>
+
+      <div id="noResults" class="no-results" style="display: none">
+        <i class="fas fa-image"></i>
+        <p>Chưa có ảnh nào</p>
+      </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="hideModal('editModal')">
+          &times;
+        </button>
+        <h2>Chỉnh sửa thông tin</h2>
+        <form
+          id="editForm"
+          class="edit-profile-form"
+          onsubmit="handleUpdateProfile(event)"
+        >
+          <div class="form-group">
+            <label>Họ tên</label>
+            <input
+              type="text"
+              name="ho_ten"
+              id="editName"
+              placeholder="Nhập họ tên"
+            />
+          </div>
+          <div class="form-group">
+            <label>Tuổi</label>
+            <input
+              type="number"
+              name="tuoi"
+              id="editAge"
+              placeholder="Nhập tuổi"
+              min="1"
+              max="150"
+            />
+          </div>
+          <div class="form-group">
+            <label>Ảnh đại diện (URL)</label>
+            <input
+              type="text"
+              name="anh_dai_dien"
+              id="editAvatar"
+              placeholder="Nhập URL ảnh đại diện"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            Lưu thay đổi
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+  </body>
+</html>

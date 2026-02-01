@@ -1,4 +1,3 @@
-// JWT verification middleware
 const jwt = require("jsonwebtoken");
 const { responseError } = require("../config/response");
 

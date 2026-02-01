@@ -1,4 +1,3 @@
-// Multer config (upload ảnh)
 const multer = require("multer");
 const path = require("path");
 
@@ -30,7 +29,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 20 * 1024 * 1024, // 20MB limit theo yêu cầu
+    fileSize: 20 * 1024 * 1024,
   },
 });
 

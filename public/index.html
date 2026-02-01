@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pinterest Clone</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <a href="index.html" class="logo">
+          <i class="fab fa-pinterest"></i>
+          <span>Pinterest</span>
+        </a>
+        <a href="index.html" class="nav-btn active">Trang chủ</a>
+      </div>
+
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm ảnh..." />
+      </div>
+
+      <div class="header-right">
+        <div id="authButtons" class="auth-buttons">
+          <button class="btn btn-login" onclick="showModal('loginModal')">
+            Đăng nhập
+          </button>
+          <button class="btn btn-signup" onclick="showModal('signupModal')">
+            Đăng ký
+          </button>
+        </div>
+        <div id="userMenu" class="user-menu" style="display: none">
+          <a href="upload.html" class="nav-icon" title="Thêm ảnh">
+            <i class="fas fa-plus"></i>
+          </a>
+          <a href="profile.html" class="nav-icon" title="Trang cá nhân">
+            <i class="fas fa-user"></i>
+          </a>
+          <button class="nav-icon" onclick="logout()" title="Đăng xuất">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="imageGrid" class="image-grid">
+        <!-- Images will be loaded here -->
+      </div>
+      <div id="loading" class="loading" style="display: none">
+        <i class="fas fa-spinner fa-spin"></i> Đang tải...
+      </div>
+      <div id="noResults" class="no-results" style="display: none">
+        <i class="fas fa-image"></i>
+        <p>Không tìm thấy ảnh nào</p>
+      </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="hideModal('loginModal')">
+          &times;
+        </button>
+        <h2>Đăng nhập</h2>
+        <p class="modal-subtitle">Chào mừng bạn quay lại!</p>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Nhập email"
+            />
+          </div>
+          <div class="form-group">
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              name="mat_khau"
+              required
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            Đăng nhập
+          </button>
+        </form>
+        <p class="modal-footer">
+          Chưa có tài khoản?
+          <a href="#" onclick="switchModal('loginModal', 'signupModal')"
+            >Đăng ký ngay</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="hideModal('signupModal')">
+          &times;
+        </button>
+        <h2>Đăng ký</h2>
+        <p class="modal-subtitle">Tạo tài khoản mới</p>
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Nhập email"
+            />
+          </div>
+          <div class="form-group">
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              name="mat_khau"
+              required
+              placeholder="Tạo mật khẩu"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" name="ho_ten" placeholder="Nhập họ tên" />
+            </div>
+            <div class="form-group">
+              <label>Tuổi</label>
+              <input
+                type="number"
+                name="tuoi"
+                placeholder="Tuổi"
+                min="1"
+                max="150"
+              />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            Đăng ký
+          </button>
+        </form>
+        <p class="modal-footer">
+          Đã có tài khoản?
+          <a href="#" onclick="switchModal('signupModal', 'loginModal')"
+            >Đăng nhập</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/home.js"></script>
+  </body>
+</html>

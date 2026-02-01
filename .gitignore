@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
 
-# Environment variables
+# Environment
 .env
 
 # IDE
@@ -17,9 +17,9 @@ logs/
 *.log
 npm-debug.log*
 
-# Build
-dist/
-build/
-
-# Docker
+# Docker volumes
 db_data/
+
+# Uploaded images (keep folder structure)
+public/img/*
+!public/img/.gitkeep

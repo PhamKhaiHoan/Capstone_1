@@ -3,12 +3,10 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const { responseSuccess, responseError } = require("../config/response");
 
-// POST /api/auth/login - Đăng nhập
 const login = async (req, res) => {
   try {
     const { email, mat_khau } = req.body;
 
-    // Validate input
     if (!email || !mat_khau) {
       return responseError(res, "Email và mật khẩu không được để trống", 400);
     }
@@ -30,7 +28,6 @@ const login = async (req, res) => {
       { expiresIn: "1d" },
     );
 
-    // Không trả về mật khẩu
     const userData = {
       nguoi_dung_id: user.nguoi_dung_id,
       email: user.email,
@@ -49,12 +46,10 @@ const login = async (req, res) => {
   }
 };
 
-// POST /api/auth/signup - Đăng ký
 const signup = async (req, res) => {
   try {
     const { email, mat_khau, ho_ten, tuoi } = req.body;
 
-    // Validate input
     if (!email || !mat_khau) {
       return responseError(res, "Email và mật khẩu không được để trống", 400);
     }

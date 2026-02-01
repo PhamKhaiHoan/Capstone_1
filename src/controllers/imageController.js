@@ -2,7 +2,6 @@ const { Image, User, Comment, SaveImage } = require("../models");
 const { Op } = require("sequelize");
 const { responseSuccess, responseError } = require("../config/response");
 
-// GET /api/images/get-list - Lấy danh sách ảnh (Trang chủ)
 const getImages = async (req, res) => {
   try {
     const data = await Image.findAll({
@@ -20,7 +19,6 @@ const getImages = async (req, res) => {
   }
 };
 
-// GET /api/images/search/:name - Tìm kiếm ảnh theo tên
 const searchImages = async (req, res) => {
   try {
     const { name } = req.params;
@@ -39,7 +37,6 @@ const searchImages = async (req, res) => {
   }
 };
 
-// GET /api/images/detail/:id - Lấy chi tiết ảnh và người tạo
 const getImageDetail = async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,7 +60,6 @@ const getImageDetail = async (req, res) => {
   }
 };
 
-// GET /api/images/comments/:id - Lấy bình luận theo id ảnh
 const getComments = async (req, res) => {
   try {
     const { id } = req.params;
@@ -83,7 +79,6 @@ const getComments = async (req, res) => {
   }
 };
 
-// GET /api/images/check-saved/:id - Kiểm tra đã lưu ảnh chưa (cần token)
 const checkSaved = async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,7 +96,6 @@ const checkSaved = async (req, res) => {
   }
 };
 
-// POST /api/images/comment - Đăng bình luận (cần token)
 const postComment = async (req, res) => {
   try {
     const { hinh_id, noi_dung } = req.body;
@@ -111,7 +105,6 @@ const postComment = async (req, res) => {
       return responseError(res, "Thiếu thông tin bình luận", 400);
     }
 
-    // Kiểm tra ảnh tồn tại
     const image = await Image.findByPk(hinh_id);
     if (!image) {
       return responseError(res, "Ảnh không tồn tại", 404);
@@ -123,7 +116,6 @@ const postComment = async (req, res) => {
       noi_dung,
     });
 
-    // Trả về comment với thông tin user
     const commentWithUser = await Comment.findOne({
       where: { binh_luan_id: newComment.binh_luan_id },
       include: [
@@ -140,7 +132,6 @@ const postComment = async (req, res) => {
   }
 };
 
-// POST /api/images/upload - Upload ảnh mới (cần token)
 const uploadImage = async (req, res) => {
   try {
     const file = req.file;
@@ -164,7 +155,6 @@ const uploadImage = async (req, res) => {
   }
 };
 
-// DELETE /api/images/:id - Xóa ảnh (cần token, chỉ xóa ảnh của chính mình)
 const deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -189,19 +179,16 @@ const deleteImage = async (req, res) => {
   }
 };
 
-// POST /api/images/save/:id - Lưu ảnh (cần token)
 const saveImage = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
 
-    // Kiểm tra ảnh tồn tại
     const image = await Image.findByPk(id);
     if (!image) {
       return responseError(res, "Ảnh không tồn tại", 404);
     }
 
-    // Kiểm tra đã lưu chưa
     const existingSave = await SaveImage.findOne({
       where: { hinh_id: id, nguoi_dung_id: userId },
     });
@@ -221,7 +208,6 @@ const saveImage = async (req, res) => {
   }
 };
 
-// DELETE /api/images/unsave/:id - Hủy lưu ảnh (cần token)
 const unsaveImage = async (req, res) => {
   try {
     const { id } = req.params;

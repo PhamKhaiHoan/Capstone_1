@@ -1,5 +1,3 @@
-// Format response chuẩn
-
 const responseSuccess = (res, data, message = "Success", statusCode = 200) => {
   return res.status(statusCode).json({
     statusCode,
