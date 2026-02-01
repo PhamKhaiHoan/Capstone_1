@@ -1,0 +1,387 @@
+{
+  "info": {
+    "_postman_id": "capstone-pinterest-api",
+    "name": "Capstone Pinterest API",
+    "description": "API Backend cho ứng dụng Pinterest Clone - Capstone Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth - Đăng ký, Đăng nhập",
+      "item": [
+        {
+          "name": "Đăng ký (Sign Up)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"newuser@gmail.com\",\n    \"mat_khau\": \"1234\",\n    \"ho_ten\": \"New User\",\n    \"tuoi\": 25\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Đăng nhập (Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.content && jsonData.content.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.content.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"hoan@gmail.com\",\n    \"mat_khau\": \"1234\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trang chủ - Danh sách ảnh",
+      "item": [
+        {
+          "name": "Lấy danh sách ảnh",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/images/get-list",
+              "host": ["{{base_url}}"],
+              "path": ["images", "get-list"]
+            }
+          }
+        },
+        {
+          "name": "Tìm kiếm ảnh theo tên",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/images/search/sunset",
+              "host": ["{{base_url}}"],
+              "path": ["images", "search", "sunset"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trang chi tiết ảnh",
+      "item": [
+        {
+          "name": "Lấy chi tiết ảnh và người tạo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/images/detail/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "detail", "1"]
+            }
+          }
+        },
+        {
+          "name": "Lấy bình luận theo id ảnh",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/images/comments/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "comments", "1"]
+            }
+          }
+        },
+        {
+          "name": "Kiểm tra đã lưu ảnh chưa (cần Token)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/check-saved/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "check-saved", "1"]
+            }
+          }
+        },
+        {
+          "name": "Đăng bình luận (cần Token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"hinh_id\": 1,\n    \"noi_dung\": \"Ảnh đẹp quá!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/images/comment",
+              "host": ["{{base_url}}"],
+              "path": ["images", "comment"]
+            }
+          }
+        },
+        {
+          "name": "Lưu ảnh (cần Token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/save/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "save", "1"]
+            }
+          }
+        },
+        {
+          "name": "Hủy lưu ảnh (cần Token)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/unsave/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "unsave", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trang quản lý ảnh",
+      "item": [
+        {
+          "name": "Lấy thông tin user (cần Token)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/get-info",
+              "host": ["{{base_url}}"],
+              "path": ["users", "get-info"]
+            }
+          }
+        },
+        {
+          "name": "Lấy danh sách ảnh đã lưu (cần Token)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/get-saved",
+              "host": ["{{base_url}}"],
+              "path": ["users", "get-saved"]
+            }
+          }
+        },
+        {
+          "name": "Lấy danh sách ảnh đã tạo (cần Token)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/get-created",
+              "host": ["{{base_url}}"],
+              "path": ["users", "get-created"]
+            }
+          }
+        },
+        {
+          "name": "Xóa ảnh đã tạo (cần Token)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trang thêm ảnh",
+      "item": [
+        {
+          "name": "Upload ảnh mới (cần Token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "ten_hinh",
+                  "value": "My New Image",
+                  "type": "text"
+                },
+                {
+                  "key": "mo_ta",
+                  "value": "This is my new image description",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/images/upload",
+              "host": ["{{base_url}}"],
+              "path": ["images", "upload"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chỉnh sửa thông tin cá nhân",
+      "item": [
+        {
+          "name": "Cập nhật thông tin user (cần Token)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ho_ten\": \"Updated Name\",\n    \"tuoi\": 26\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update-info",
+              "host": ["{{base_url}}"],
+              "path": ["users", "update-info"]
+            }
+          }
+        },
+        {
+          "name": "Cập nhật ảnh đại diện (cần Token)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update-avatar",
+              "host": ["{{base_url}}"],
+              "path": ["users", "update-avatar"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

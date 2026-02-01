@@ -1,17 +1,35 @@
-// User Routes
 const express = require("express");
-const router = express.Router();
-const {
-  getUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-} = require("../controllers/userController");
 const { verifyToken } = require("../middleware/auth");
+const upload = require("../middleware/upload");
+const {
+  getUserInfo,
+  getSavedImages,
+  getCreatedImages,
+  updateUserInfo,
+  updateAvatar,
+} = require("../controllers/userController");
 
-router.get("/", getUsers);
-router.get("/:id", getUserById);
-router.put("/:id", verifyToken, updateUser);
-router.delete("/:id", verifyToken, deleteUser);
+const userRouter = express.Router();
 
-module.exports = router;
+// ===== Protected routes (Tất cả đều cần Token) =====
+// Trang quản lý ảnh: Lấy thông tin user
+userRouter.get("/get-info", verifyToken, getUserInfo);
+
+// Trang quản lý ảnh: Lấy danh sách ảnh đã lưu theo user id
+userRouter.get("/get-saved", verifyToken, getSavedImages);
+
+// Trang quản lý ảnh: Lấy danh sách ảnh đã tạo theo user id
+userRouter.get("/get-created", verifyToken, getCreatedImages);
+
+// Trang chỉnh sửa thông tin cá nhân: Cập nhật thông tin
+userRouter.put("/update-info", verifyToken, updateUserInfo);
+
+// Trang chỉnh sửa thông tin cá nhân: Cập nhật ảnh đại diện
+userRouter.put(
+  "/update-avatar",
+  verifyToken,
+  upload.single("file"),
+  updateAvatar,
+);
+
+module.exports = userRouter;
