@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Service Database MySQL
+  db:
+    image: mysql:8.0
+    container_name: mysql_capstone
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_capstone
+    ports:
+      - "3307:3306" # Map port 3307 ở máy thật -> 3306 trong docker
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d # Tự chạy script sql khi khởi tạo
+      - db_data:/var/lib/mysql
+
+  # Service Backend Nodejs
+  app:
+    build: .
+    container_name: node_capstone
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/app/src # Mount code để sửa code không cần build lại
+      - ./public:/app/public
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=db_capstone
+      - DB_PORT=3306
+      - JWT_SECRET=bi_mat_khong_bat_mi
+    depends_on:
+      - db # Chạy db xong mới chạy app
+
+volumes:
+  db_data:
